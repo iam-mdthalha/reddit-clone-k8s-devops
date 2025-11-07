@@ -69,6 +69,12 @@ It demonstrates how a real application is built, containerized, pushed to a regi
 
 ---
 
+## 🧱 Architecture Diagram (High Level)
+
+![Architecture](docs/architecture.png)
+
+---
+
 ## 🗂 Documentation Included
 
 - Architecture diagram  
