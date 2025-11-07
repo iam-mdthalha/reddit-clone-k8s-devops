@@ -26,22 +26,22 @@ It demonstrates how a real application is built, containerized, pushed to a regi
     │     └── (Application source code)
     │
     ├── k8s/                 
-    │     ├── deployment.yaml        # Defines Pods + ReplicaSets
-    │     ├── service.yaml           # Exposes the app inside/outside the cluster
-    │     ├── ingress.yaml           # HTTP routing via NGINX Ingress
-    │     ├── namespace.yaml         # Separate namespace for the project
-    │     └── configmap.yaml         # Optional configuration values
+    │     ├── deployment.yaml        
+    │     ├── service.yaml           
+    │     ├── ingress.yaml           
+    │     ├── namespace.yaml         
+    │     └── configmap.yaml         
     │
     ├── ci-cd/
-    │     ├── github-actions.yml     # CI pipeline to build & push Docker image
-    │     └── build-and-push.sh      # Optional shell script for manual CI
+    │     ├── github-actions.yml     
+    │     └── build-and-push.sh      
     │
     ├── docs/
-    │     ├── architecture.png       # Architecture diagram
-    │     ├── workflow.png           # CI/CD & deployment workflow diagram
-    │     └── timeline.md            # Day-by-day DevOps implementation steps
+    │     ├── architecture.png       
+    │     ├── workflow.png           
+    │     └── timeline.md            
     │
-    └── README.md                    # Project documentation
+    └── README.md                    
 
 ---
 
@@ -52,8 +52,8 @@ It demonstrates how a real application is built, containerized, pushed to a regi
 - Kubernetes Deployment  
 - Kubernetes Service (NodePort)  
 - Ingress-based routing  
-- CI pipeline for image automation  
-- Clear documentation and structure  
+- GitHub Actions CI pipeline  
+- Clear documentation and folder structure  
 
 ---
 
@@ -79,14 +79,62 @@ It demonstrates how a real application is built, containerized, pushed to a regi
 
 - Architecture diagram  
 - Workflow diagram  
-- DevOps timeline (day-wise progress)  
+- DevOps timeline  
 - Explanation of each component  
+
+---
+
+## 📦 How to Use This Repository
+
+Below are the commands to clone, build, push, deploy, update, and debug the project:
+
+### ✅ 1. Clone the Repository
+    git clone https://github.com/<your-username>/reddit-clone-k8s-devops.git
+    cd reddit-clone-k8s-devops
+
+### ✅ 2. Build the Docker Image
+    cd app
+    docker build -t <your-dockerhub-username>/reddit-clone:latest .
+
+### ✅ 3. Push the Docker Image to DockerHub
+    docker login
+    docker push <your-dockerhub-username>/reddit-clone:latest
+
+### ✅ 4. Deploy All Kubernetes Manifests
+    kubectl apply -f k8s/
+
+### ✅ Check Kubernetes Resources
+    kubectl get pods -n reddit-app
+    kubectl get svc -n reddit-app
+    kubectl get ingress -n reddit-app
+
+### ✅ 5. Access the Application (NodePort)
+    # Example: http://<EC2-PUBLIC-IP>:30036
+    kubectl get svc -n reddit-app
+
+### ✅ 6. Access via Ingress
+    # Example: http://domain.com/test
+
+### ✅ 7. Update Deployment With New Image
+    kubectl set image deployment/reddit-clone-deploy reddit-clone=<your-dockerhub-username>/reddit-clone:<tag> -n reddit-app
+
+### ✅ Check rollout
+    kubectl rollout status deployment/reddit-clone-deploy -n reddit-app
+
+### ✅ 8. Delete All Resources (Cleanup)
+    kubectl delete -f k8s/
+
+### ✅ 9. Useful Kubernetes Commands
+    kubectl logs -f <pod-name> -n reddit-app
+    kubectl describe <resource> <name> -n reddit-app
+    kubectl rollout restart deployment/reddit-clone-deploy -n reddit-app
+    kubectl port-forward svc/reddit-clone-svc 3000:3000 -n reddit-app
 
 ---
 
 ## 🎯 Project Goal
 
-To demonstrate a clean, industry-style DevOps workflow using:
+To demonstrate a clean, production-style DevOps workflow using:
 
 - Docker  
 - Kubernetes  
